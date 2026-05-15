@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Madi'O — Accueil voyageurs & gestion des départs</title>
+<meta name="description" content="Madi'O, votre conciergerie dédiée aux arrivées et aux départs : accueil voyageurs, remise des clés, état des lieux. Disponible 7j/7.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --terracotta-900:#5a2418;
+    --terracotta-800:#7a3322;
+    --terracotta-700:#9c4530;
+    --terracotta-600:#bf5a3e;
+    --terracotta-500:#d97757;
+    --terracotta-400:#e89579;
+    --terracotta-300:#f2b8a2;
+    --terracotta-200:#f7d4c4;
+    --terracotta-100:#fbe9de;
+    --cream:#faf3ec;
+    --cream-2:#f5ebe0;
+    --sand:#ede0d0;
+    --ink:#2b1a13;
+    --ink-soft:#5a4438;
+    --muted:#8b7565;
+    --gold:#c9a06b;
+    --white:#ffffff;
+    --shadow-sm:0 1px 2px rgba(90,36,24,.06), 0 2px 6px rgba(90,36,24,.04);
+    --shadow-md:0 6px 24px -8px rgba(90,36,24,.18), 0 2px 8px rgba(90,36,24,.06);
+    --shadow-lg:0 24px 60px -20px rgba(90,36,24,.25), 0 8px 24px -8px rgba(90,36,24,.12);
+    --radius:18px;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter',sans-serif;
+    color:var(--ink);
+    background:var(--cream);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,h4{
+    font-family:'Fraunces',serif;
+    font-weight:500;letter-spacing:-.01em;line-height:1.1;
+  }
+  a{color:inherit;text-decoration:none}
+
+  /* NAV */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    padding:18px 0;
+    background:rgba(250,243,236,.82);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(217,119,87,.12);
+    transition:padding .3s ease;
+  }
+  .nav-inner{
+    max-width:1280px;margin:0 auto;padding:0 32px;
+    display:flex;align-items:center;justify-content:space-between;gap:24px;
+  }
+  .logo{
+    font-family:'Fraunces',serif;font-size:28px;font-weight:600;
+    color:var(--terracotta-700);
+    letter-spacing:-.02em;
+    display:flex;align-items:center;
+  }
+  .logo-mark{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:34px;height:34px;border-radius:50%;
+    background:var(--terracotta-500);color:var(--white);
+    font-size:17px;margin-right:8px;font-style:italic;
+  }
+  .logo span{color:var(--terracotta-500);font-style:italic}
+  .nav-links{display:flex;gap:32px;list-style:none;font-size:14.5px;font-weight:500;color:var(--ink-soft)}
+  .nav-links a{transition:color .2s;padding:6px 0;position:relative}
+  .nav-links a:hover{color:var(--terracotta-600)}
+  .nav-links a::after{
+    content:'';position:absolute;bottom:0;left:0;width:0;height:1.5px;
+    background:var(--terracotta-500);transition:width .3s ease;
+  }
+  .nav-links a:hover::after{width:100%}
+  .nav-cta{
+    background:var(--terracotta-700);color:var(--white);
+    padding:11px 22px;border-radius:999px;font-size:14px;font-weight:500;
+    transition:all .25s ease;
+    border:1px solid var(--terracotta-700);
+  }
+  .nav-cta:hover{background:var(--terracotta-800);transform:translateY(-1px);box-shadow:var(--shadow-md)}
+  .burger{display:none;background:none;border:none;cursor:pointer;font-size:24px;color:var(--terracotta-700)}
+
+  /* HERO */
+  .hero{
+    padding:140px 32px 80px;
+    position:relative;
+    overflow:hidden;
+    background:
+      radial-gradient(circle at 85% 20%, rgba(217,119,87,.16), transparent 45%),
+      radial-gradient(circle at 10% 80%, rgba(201,160,107,.10), transparent 50%),
+      linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%);
+  }
+  .hero-grain{
+    position:absolute;inset:0;pointer-events:none;opacity:.4;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.6 0 0 0 0 0.35 0 0 0 0 0.25 0 0 0 0.08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .hero-inner{max-width:1280px;margin:0 auto;position:relative;z-index:1}
+  .hero-grid{
+    display:grid;grid-template-columns:1.1fr .9fr;gap:80px;align-items:center;
+  }
+  .hero-eyebrow{
+    display:inline-flex;align-items:center;gap:10px;
+    background:rgba(217,119,87,.12);
+    color:var(--terracotta-700);
+    padding:8px 16px;border-radius:999px;
+    font-size:13px;font-weight:500;letter-spacing:.02em;
+    margin-bottom:28px;
+    border:1px solid rgba(217,119,87,.18);
+  }
+  .hero-eyebrow::before{
+    content:'';width:6px;height:6px;border-radius:50%;
+    background:var(--terracotta-500);
+    box-shadow:0 0 0 3px rgba(217,119,87,.25);
+    animation:pulse 2s infinite;
+  }
+  @keyframes pulse{
+    0%,100%{box-shadow:0 0 0 3px rgba(217,119,87,.25)}
+    50%{box-shadow:0 0 0 6px rgba(217,119,87,.10)}
+  }
+  h1.hero-title{
+    font-size:clamp(42px,5.5vw,68px);
+    color:var(--terracotta-900);
+    margin-bottom:24px;
+    letter-spacing:-.025em;
+  }
+  h1.hero-title em{font-style:italic;color:var(--terracotta-500);font-weight:400}
+  .hero-sub{
+    font-size:19px;color:var(--ink-soft);max-width:520px;margin-bottom:36px;
+  }
+  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:15px 28px;border-radius:999px;
+    font-size:15px;font-weight:500;font-family:'Inter',sans-serif;
+    cursor:pointer;transition:all .25s ease;
+    border:1px solid transparent;
+  }
+  .btn-primary{background:var(--terracotta-700);color:var(--white);border-color:var(--terracotta-700)}
+  .btn-primary:hover{background:var(--terracotta-800);transform:translateY(-2px);box-shadow:var(--shadow-md)}
+  .btn-ghost{background:transparent;color:var(--terracotta-700);border:1px solid rgba(217,119,87,.35)}
+  .btn-ghost:hover{background:rgba(217,119,87,.08);border-color:var(--terracotta-500)}
+  .btn-arrow{transition:transform .25s}
+  .btn:hover .btn-arrow{transform:translateX(4px)}
+
+  .hero-bullets{
+    display:flex;gap:24px;flex-wrap:wrap;
+    margin-top:36px;padding-top:28px;
+    border-top:1px solid rgba(122,51,34,.1);
+    font-size:14px;color:var(--ink-soft);
+  }
+  .hero-bullets div{display:flex;align-items:center;gap:8px}
+  .hero-bullets .b-icon{
+    width:22px;height:22px;border-radius:50%;
+    background:var(--terracotta-100);color:var(--terracotta-700);
+    display:inline-flex;align-items:center;justify-content:center;font-size:12px;
+  }
+
+  /* HERO VISUAL : 4 cartes en grid 2x2 */
+  .hero-visual{
+    display:grid;
+    grid-template-columns:1.15fr .85fr;
+    gap:16px;
+    align-items:stretch;
+  }
+  .hero-stages{
+    display:flex;flex-direction:column;gap:16px;
+  }
+  .hero-extras{
+    display:flex;flex-direction:column;gap:16px;
+  }
+  .stage-card{
+    border-radius:var(--radius);
+    padding:24px 22px;
+    box-shadow:var(--shadow-lg);
+    transition:transform .3s ease;
+    overflow:hidden;
+    position:relative;
+    flex:1;
+    display:flex;flex-direction:column;justify-content:space-between;
+  }
+  .stage-arrivee{
+    background:linear-gradient(160deg,var(--terracotta-700),var(--terracotta-900));
+    color:var(--cream);
+  }
+  .stage-arrivee::before{
+    content:'';position:absolute;
+    width:220px;height:220px;border-radius:50%;
+    background:radial-gradient(circle,rgba(242,184,162,.18),transparent 70%);
+    bottom:-90px;right:-90px;
+  }
+  .stage-depart{
+    background:var(--white);
+    color:var(--ink);
+    border:1px solid rgba(122,51,34,.10);
+  }
+  .stage-card:hover{transform:translateY(-4px)}
+  .stage-tag{
+    display:inline-block;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+    font-weight:600;padding:5px 11px;border-radius:999px;margin-bottom:12px;
+    align-self:flex-start;
+  }
+  .stage-arrivee .stage-tag{background:rgba(255,255,255,.14);color:var(--terracotta-200)}
+  .stage-depart .stage-tag{background:var(--terracotta-100);color:var(--terracotta-700)}
+  .stage-card h3{font-size:22px;line-height:1.2;margin-bottom:8px}
+  .stage-arrivee h3 em{font-style:italic;color:var(--terracotta-300);font-weight:400}
+  .stage-depart h3{color:var(--terracotta-900)}
+  .stage-depart h3 em{font-style:italic;color:var(--terracotta-500);font-weight:400}
+  .stage-card p{font-size:13px;line-height:1.5;opacity:.92;position:relative;z-index:1}
+  .stage-arrivee p{color:rgba(250,243,236,.85)}
+  .stage-depart p{color:var(--ink-soft)}
+  .stage-foot{
+    display:flex;align-items:center;justify-content:space-between;
+    margin-top:14px;padding-top:12px;
+    border-top:1px solid;
+    font-size:11.5px;
+    position:relative;z-index:1;
+  }
+  .stage-arrivee .stage-foot{border-color:rgba(255,255,255,.15)}
+  .stage-depart .stage-foot{border-color:rgba(122,51,34,.10)}
+  .stage-icon{
+    width:34px;height:34px;border-radius:50%;
+    display:inline-flex;align-items:center;justify-content:center;
+    font-size:16px;
+  }
+  .stage-arrivee .stage-icon{background:rgba(255,255,255,.15)}
+  .stage-depart .stage-icon{background:var(--terracotta-500);color:var(--white)}
+
+  /* Mini cartes : ménage + linge */
+  .hero-mini{
+    border-radius:var(--radius);
+    padding:20px 18px;
+    box-shadow:var(--shadow-md);
+    transition:transform .3s ease;
+    flex:1;
+    display:flex;flex-direction:column;justify-content:space-between;
+    position:relative;overflow:hidden;
+  }
+  .hero-mini:hover{transform:translateY(-4px)}
+  .hero-mini-menage{
+    background:linear-gradient(160deg,var(--cream),var(--sand));
+    color:var(--ink);
+    border:1px solid rgba(122,51,34,.10);
+  }
+  .hero-mini-linge{
+    background:linear-gradient(160deg,var(--terracotta-100),var(--terracotta-200));
+    color:var(--ink);
+    border:1px solid rgba(122,51,34,.10);
+  }
+  .hero-mini-tag{
+    display:inline-block;font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+    font-weight:700;color:var(--terracotta-700);
+    margin-bottom:8px;align-self:flex-start;
+  }
+  .hero-mini h4{
+    font-size:16px;color:var(--terracotta-900);
+    margin-bottom:6px;font-weight:600;line-height:1.2;
+  }
+  .hero-mini p{
+    font-size:11.5px;color:var(--ink-soft);line-height:1.45;
+  }
+  .hero-mini-foot{
+    display:flex;align-items:center;justify-content:space-between;
+    margin-top:14px;padding-top:10px;
+    border-top:1px solid rgba(122,51,34,.12);
+  }
+  .hero-mini-icon{
+    width:30px;height:30px;border-radius:8px;
+    background:var(--terracotta-500);color:var(--white);
+    display:inline-flex;align-items:center;justify-content:center;font-size:14px;
+  }
+  .hero-mini-price{
+    font-family:'Fraunces',serif;font-size:18px;font-weight:600;
+    color:var(--terracotta-700);
+  }
+
+  /* SECTIONS */
+  .section{padding:100px 32px;position:relative}
+  .container{max-width:1280px;margin:0 auto}
+  .section-head{text-align:center;margin-bottom:64px}
+  .section-eyebrow{
+    display:inline-block;
+    font-size:13px;font-weight:600;letter-spacing:.2em;
+    color:var(--terracotta-600);text-transform:uppercase;margin-bottom:14px;
+  }
+  .section-title{
+    font-size:clamp(34px,4vw,52px);color:var(--terracotta-900);margin-bottom:18px;
+  }
+  .section-title em{font-style:italic;color:var(--terracotta-500);font-weight:400}
+  .section-lead{font-size:18px;color:var(--ink-soft);max-width:680px;margin:0 auto}
+
+  /* DEUX PRESTATIONS PRINCIPALES */
+  .duo-section{background:var(--white)}
+  .duo-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+  .duo-card{
+    border-radius:24px;padding:48px 40px;
+    position:relative;overflow:hidden;
+    transition:transform .4s ease, box-shadow .4s ease;
+  }
+  .duo-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+  .duo-arrivee{
+    background:linear-gradient(155deg,var(--terracotta-700),var(--terracotta-900));
+    color:var(--cream);
+  }
+  .duo-depart{
+    background:linear-gradient(155deg,var(--cream-2),var(--sand));
+    color:var(--ink);
+    border:1px solid rgba(122,51,34,.1);
+  }
+  .duo-badge{
+    display:inline-block;font-size:12px;letter-spacing:.16em;
+    text-transform:uppercase;font-weight:600;
+    padding:6px 14px;border-radius:999px;margin-bottom:24px;
+  }
+  .duo-arrivee .duo-badge{background:rgba(255,255,255,.14);color:var(--terracotta-200)}
+  .duo-depart .duo-badge{background:var(--terracotta-500);color:var(--white)}
+  .duo-card h3{font-size:36px;margin-bottom:16px;letter-spacing:-.02em}
+  .duo-depart h3{color:var(--terracotta-800)}
+  .duo-desc{font-size:17px;margin-bottom:32px;opacity:.92;line-height:1.6}
+  .duo-list{list-style:none;margin-bottom:36px}
+  .duo-list li{
+    padding:14px 0;display:flex;align-items:flex-start;gap:14px;
+    font-size:15px;border-top:1px solid;
+  }
+  .duo-arrivee .duo-list li{border-color:rgba(255,255,255,.12)}
+  .duo-depart .duo-list li{border-color:rgba(122,51,34,.10)}
+  .duo-list li:last-child{border-bottom:1px solid}
+  .duo-arrivee .duo-list li:last-child{border-color:rgba(255,255,255,.12)}
+  .duo-depart .duo-list li:last-child{border-color:rgba(122,51,34,.10)}
+  .duo-list-icon{
+    flex-shrink:0;width:22px;height:22px;border-radius:50%;
+    display:inline-flex;align-items:center;justify-content:center;
+    font-size:12px;margin-top:1px;
+  }
+  .duo-arrivee .duo-list-icon{background:rgba(255,255,255,.15);color:var(--cream)}
+  .duo-depart .duo-list-icon{background:var(--terracotta-500);color:var(--white)}
+  .duo-pricing{
+    display:flex;align-items:baseline;justify-content:space-between;
+    padding:20px 0;margin-bottom:24px;
+    border-top:1px dashed;border-bottom:1px dashed;
+  }
+  .duo-arrivee .duo-pricing{border-color:rgba(255,255,255,.20)}
+  .duo-depart .duo-pricing{border-color:rgba(122,51,34,.20)}
+  .duo-pricing-label{font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.7}
+  .duo-pricing-value{
+    font-family:'Fraunces',serif;font-size:28px;font-weight:600;
+  }
+  .duo-depart .duo-pricing-value{color:var(--terracotta-700)}
+  .duo-pricing-value small{font-size:14px;font-weight:400;opacity:.7;font-family:'Inter',sans-serif}
+  .duo-cta{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:14px 26px;border-radius:999px;
+    font-weight:500;font-size:15px;
+    transition:all .25s ease;
+  }
+  .duo-arrivee .duo-cta{background:var(--cream);color:var(--terracotta-900)}
+  .duo-arrivee .duo-cta:hover{background:var(--white);transform:translateX(4px)}
+  .duo-depart .duo-cta{background:var(--terracotta-700);color:var(--white)}
+  .duo-depart .duo-cta:hover{background:var(--terracotta-800);transform:translateX(4px)}
+  .duo-decor{
+    position:absolute;font-family:'Fraunces',serif;font-style:italic;
+    font-size:220px;font-weight:300;
+    bottom:-60px;right:-20px;opacity:.08;
+    pointer-events:none;line-height:1;
+  }
+  .duo-arrivee .duo-decor{color:var(--cream)}
+  .duo-depart .duo-decor{color:var(--terracotta-700)}
+
+  /* EXTRA prestations (ménage, linge, pack) */
+  .extra-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
+    margin-top:32px;
+  }
+  .extra-card{
+    background:var(--white);
+    border-radius:var(--radius);
+    padding:32px 28px;
+    border:1px solid rgba(122,51,34,.10);
+    position:relative;
+    transition:all .3s ease;
+    display:flex;flex-direction:column;
+  }
+  .extra-card:hover{
+    transform:translateY(-4px);
+    box-shadow:var(--shadow-md);
+    border-color:rgba(217,119,87,.35);
+  }
+  .extra-head{
+    display:flex;align-items:center;gap:14px;margin-bottom:18px;
+  }
+  .extra-icon{
+    width:48px;height:48px;border-radius:12px;
+    background:var(--terracotta-100);color:var(--terracotta-700);
+    display:flex;align-items:center;justify-content:center;font-size:22px;
+    flex-shrink:0;
+  }
+  .extra-tag{
+    font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    font-weight:600;color:var(--terracotta-600);
+  }
+  .extra-card h4{
+    font-size:22px;color:var(--terracotta-900);margin-bottom:10px;font-weight:600;
+  }
+  .extra-card p{
+    color:var(--ink-soft);font-size:14.5px;line-height:1.6;margin-bottom:18px;
+  }
+  .extra-list{list-style:none;margin-bottom:22px;flex-grow:1}
+  .extra-list li{
+    padding:8px 0;display:flex;align-items:center;gap:10px;
+    font-size:14px;color:var(--ink);
+    border-bottom:1px dashed rgba(122,51,34,.10);
+  }
+  .extra-list li:last-child{border-bottom:none}
+  .extra-list li strong{color:var(--terracotta-700);font-weight:600;margin-left:auto}
+  .extra-li-icon{
+    width:18px;height:18px;border-radius:50%;
+    background:var(--terracotta-500);color:var(--white);
+    display:inline-flex;align-items:center;justify-content:center;
+    font-size:10px;flex-shrink:0;
+  }
+  .extra-price{
+    display:flex;align-items:baseline;justify-content:space-between;
+    padding-top:18px;border-top:1px solid rgba(122,51,34,.10);
+  }
+  .extra-price-label{font-size:12px;color:var(--muted);letter-spacing:.05em;text-transform:uppercase}
+  .extra-price-value{
+    font-family:'Fraunces',serif;font-size:24px;color:var(--terracotta-700);font-weight:600;
+  }
+  .extra-price-value small{font-size:13px;font-weight:400;color:var(--muted);font-family:'Inter',sans-serif}
+  .extra-cta{
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    margin-top:18px;padding:13px 22px;
+    background:var(--terracotta-700);color:var(--white);
+    border-radius:999px;
+    font-size:14px;font-weight:500;
+    transition:all .25s ease;
+    text-align:center;
+  }
+  .extra-cta:hover{background:var(--terracotta-800);transform:translateX(4px)}
+  .extra-cta span{transition:transform .25s}
+  .extra-cta:hover span{transform:translateX(2px)}
+  .extra-cta-light{background:var(--cream);color:var(--terracotta-900)}
+  .extra-cta-light:hover{background:var(--white)}
+
+  /* Pack complet - mis en avant */
+  .extra-pack{
+    background:linear-gradient(160deg,var(--terracotta-700),var(--terracotta-900));
+    color:var(--cream);
+    border-color:transparent;
+  }
+  .extra-pack .extra-icon{background:rgba(255,255,255,.15);color:var(--terracotta-200)}
+  .extra-pack .extra-tag{color:var(--terracotta-300)}
+  .extra-pack h4{color:var(--cream)}
+  .extra-pack p{color:rgba(250,243,236,.82)}
+  .extra-pack .extra-list li{color:var(--cream);border-color:rgba(250,243,236,.15)}
+  .extra-pack .extra-list li strong{color:var(--terracotta-300)}
+  .extra-pack .extra-price{border-color:rgba(250,243,236,.15)}
+  .extra-pack .extra-price-label{color:rgba(250,243,236,.6)}
+  .extra-pack .extra-price-value{color:var(--cream)}
+  .extra-pack .extra-price-value small{color:rgba(250,243,236,.6)}
+  .extra-ribbon{
+    position:absolute;top:14px;right:14px;
+    background:var(--terracotta-500);color:var(--white);
+    font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+    padding:5px 12px;border-radius:999px;
+    box-shadow:0 4px 12px -2px rgba(217,119,87,.5);
+  }
+
+  /* PROCESS */
+  .process-section{
+    background:linear-gradient(180deg,var(--cream) 0%,var(--terracotta-100) 100%);
+  }
+  .process-steps{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:24px;
+  }
+  .process-step{
+    background:var(--white);border-radius:var(--radius);
+    padding:36px 28px;text-align:center;
+    border:1px solid rgba(122,51,34,.08);
+    transition:transform .3s;
+  }
+  .process-step:hover{transform:translateY(-4px)}
+  .step-num{
+    width:48px;height:48px;border-radius:50%;
+    background:var(--terracotta-700);color:var(--white);
+    font-family:'Fraunces',serif;font-size:22px;font-weight:600;
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 22px;
+    box-shadow:0 6px 16px -4px rgba(122,51,34,.35);
+  }
+  .process-step h4{font-size:19px;margin-bottom:10px;color:var(--terracotta-900)}
+  .process-step p{font-size:14.5px;color:var(--ink-soft);line-height:1.55}
+
+  /* AVIS */
+  .reviews-section{background:var(--white)}
+  .reviews-empty{
+    max-width:760px;margin:0 auto;
+    background:linear-gradient(135deg,var(--terracotta-100),var(--cream-2));
+    border-radius:24px;padding:56px 48px;
+    border:1px solid rgba(122,51,34,.08);
+    text-align:center;
+  }
+  .empty-stars{
+    color:var(--terracotta-300);
+    font-size:32px;letter-spacing:6px;margin-bottom:22px;
+  }
+  .reviews-empty h3{
+    font-size:26px;color:var(--terracotta-900);margin-bottom:12px;
+  }
+  .reviews-empty p{
+    font-size:16px;color:var(--ink-soft);max-width:520px;margin:0 auto 28px;
+  }
+  .reviews-empty .btn{margin-top:8px}
+
+  .reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .review-card{
+    background:var(--cream);border-radius:var(--radius);
+    padding:30px 28px;
+    border:1px solid rgba(122,51,34,.08);
+  }
+  .review-card-head{
+    display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;
+  }
+  .review-stars{color:var(--terracotta-500);font-size:16px;letter-spacing:1px}
+  .review-tag{
+    font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+    padding:4px 10px;border-radius:999px;font-weight:600;
+    background:var(--terracotta-200);color:var(--terracotta-800);
+  }
+  .review-quote{
+    font-family:'Fraunces',serif;font-size:17px;font-style:italic;
+    color:var(--ink);line-height:1.5;margin-bottom:20px;
+  }
+  .review-author{
+    display:flex;align-items:center;gap:12px;
+    padding-top:16px;border-top:1px solid rgba(122,51,34,.08);
+  }
+  .review-avatar{
+    width:42px;height:42px;border-radius:50%;
+    background:var(--terracotta-500);color:var(--white);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Fraunces',serif;font-weight:600;font-size:16px;
+  }
+  .review-author-info strong{display:block;color:var(--ink);font-weight:600;font-size:14px}
+  .review-author-info span{color:var(--muted);font-size:13px}
+
+  /* Form pour laisser un avis */
+  .review-form-wrap{
+    max-width:680px;margin:48px auto 0;
+    background:var(--cream);
+    border:1px solid rgba(122,51,34,.10);
+    border-radius:var(--radius);padding:40px;
+    display:none;
+  }
+  .review-form-wrap.open{display:block}
+  .review-form-wrap h4{
+    font-size:24px;color:var(--terracotta-900);margin-bottom:20px;text-align:center;
+  }
+  .star-input{
+    display:flex;justify-content:center;gap:8px;
+    font-size:34px;color:rgba(122,51,34,.20);
+    margin-bottom:24px;cursor:pointer;
+  }
+  .star-input .star{transition:transform .15s,color .15s;cursor:pointer}
+  .star-input .star.active{color:var(--terracotta-500)}
+  .star-input .star:hover{transform:scale(1.15)}
+  .review-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .rf-field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+  .rf-field.full{grid-column:1/-1}
+  .rf-field label{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+  .rf-field input,.rf-field select,.rf-field textarea{
+    background:var(--white);
+    border:1px solid rgba(122,51,34,.15);
+    border-radius:10px;padding:12px 14px;
+    color:var(--ink);font-family:'Inter',sans-serif;font-size:14.5px;
+    transition:all .25s;
+  }
+  .rf-field input:focus,.rf-field select:focus,.rf-field textarea:focus{
+    outline:none;border-color:var(--terracotta-500);
+    box-shadow:0 0 0 3px rgba(217,119,87,.15);
+  }
+  .rf-field textarea{min-height:100px;resize:vertical;font-family:'Inter',sans-serif}
+  .review-submit{
+    background:var(--terracotta-700);color:var(--white);
+    border:none;padding:14px 28px;border-radius:999px;
+    font-family:'Inter',sans-serif;font-size:15px;font-weight:500;
+    cursor:pointer;transition:all .25s;
+    margin-top:8px;width:100%;
+  }
+  .review-submit:hover{background:var(--terracotta-800);transform:translateY(-1px)}
+  .rf-note{font-size:12px;color:var(--muted);text-align:center;margin-top:12px;line-height:1.5}
+
+  /* WHY */
+  .why-section{
+    background:linear-gradient(180deg,var(--terracotta-100),var(--cream));
+  }
+  .why-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:24px;
+  }
+  .why-card{
+    background:var(--white);
+    border-radius:var(--radius);
+    padding:32px 26px;text-align:center;
+    border:1px solid rgba(122,51,34,.08);
+    transition:all .3s;
+  }
+  .why-card:hover{transform:translateY(-4px);border-color:var(--terracotta-400)}
+  .why-icon{
+    width:56px;height:56px;border-radius:50%;
+    background:var(--terracotta-100);color:var(--terracotta-700);
+    display:flex;align-items:center;justify-content:center;
+    font-size:24px;margin:0 auto 18px;
+  }
+  .why-card h4{font-size:18px;margin-bottom:8px;color:var(--terracotta-900)}
+  .why-card p{font-size:14px;color:var(--ink-soft);line-height:1.55}
+
+  /* CONTACT */
+  .contact-section{
+    background:var(--terracotta-900);color:var(--cream);
+    position:relative;overflow:hidden;
+  }
+  .contact-section::before{
+    content:'';position:absolute;
+    width:600px;height:600px;border-radius:50%;
+    background:radial-gradient(circle,rgba(217,119,87,.18),transparent 70%);
+    top:-200px;right:-200px;pointer-events:none;
+  }
+  .contact-section .section-eyebrow{color:var(--terracotta-300)}
+  .contact-section .section-title{color:var(--cream)}
+  .contact-section .section-title em{color:var(--terracotta-400)}
+  .contact-section .section-lead{color:rgba(250,243,236,.75)}
+
+  .contact-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:48px;
+    background:rgba(250,243,236,.04);
+    border:1px solid rgba(250,243,236,.10);
+    border-radius:24px;padding:48px;
+    backdrop-filter:blur(10px);
+    position:relative;z-index:1;
+  }
+  .contact-info{display:flex;flex-direction:column;gap:6px}
+  .contact-item{
+    display:flex;align-items:flex-start;gap:16px;
+    padding:18px 0;border-bottom:1px solid rgba(250,243,236,.10);
+  }
+  .contact-item:last-child{border-bottom:none}
+  .contact-icon{
+    width:44px;height:44px;border-radius:12px;flex-shrink:0;
+    background:var(--terracotta-700);color:var(--cream);
+    display:flex;align-items:center;justify-content:center;font-size:18px;
+  }
+  .contact-item h5{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--terracotta-300);margin-bottom:4px;font-weight:600}
+  .contact-item p,.contact-item a{color:var(--cream);font-size:16px;transition:color .2s}
+  .contact-item a:hover{color:var(--terracotta-300)}
+
+  .contact-form{display:flex;flex-direction:column;gap:18px}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .form-field{display:flex;flex-direction:column;gap:6px}
+  .form-field label{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--terracotta-300);font-weight:600}
+  .form-field input,.form-field select,.form-field textarea{
+    background:rgba(250,243,236,.08);
+    border:1px solid rgba(250,243,236,.18);
+    border-radius:12px;padding:13px 16px;
+    color:var(--cream);font-family:'Inter',sans-serif;font-size:14.5px;
+    transition:all .25s;
+  }
+  .form-field input:focus,.form-field select:focus,.form-field textarea:focus{
+    outline:none;border-color:var(--terracotta-400);
+    background:rgba(250,243,236,.12);
+  }
+  .form-field textarea{resize:vertical;min-height:100px;font-family:'Inter',sans-serif}
+  .form-field select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f2b8a2' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;background-size:18px;padding-right:42px}
+  .form-field select option{background:var(--terracotta-900);color:var(--cream)}
+  .form-submit{
+    background:var(--terracotta-500);color:var(--white);
+    border:none;padding:16px 28px;border-radius:999px;
+    font-family:'Inter',sans-serif;font-size:15px;font-weight:500;
+    cursor:pointer;transition:all .25s;
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    margin-top:6px;
+  }
+  .form-submit:hover{background:var(--terracotta-400);transform:translateY(-2px);box-shadow:0 10px 24px -8px rgba(217,119,87,.5)}
+  .form-note{font-size:12.5px;color:rgba(250,243,236,.55);text-align:center;margin-top:4px}
+
+  /* FOOTER */
+  footer{
+    background:var(--terracotta-900);color:var(--terracotta-200);
+    padding:48px 32px 24px;
+    border-top:1px solid rgba(250,243,236,.08);
+  }
+  .footer-inner{
+    max-width:1280px;margin:0 auto;
+    display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:48px;
+    margin-bottom:40px;
+  }
+  .footer-brand p{font-size:14px;color:rgba(250,243,236,.6);margin-top:14px;max-width:300px;line-height:1.6}
+  .footer h6{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--cream);font-weight:600;margin-bottom:18px}
+  .footer ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+  .footer ul a,.footer ul li{font-size:14px;color:rgba(250,243,236,.7);transition:color .2s}
+  .footer ul a:hover{color:var(--terracotta-400)}
+  .footer-bottom{
+    max-width:1280px;margin:0 auto;
+    padding-top:24px;border-top:1px solid rgba(250,243,236,.10);
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;
+    font-size:13px;color:rgba(250,243,236,.5);
+  }
+
+  /* TOAST */
+  .toast{
+    position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);
+    background:var(--terracotta-700);color:var(--white);
+    padding:14px 24px;border-radius:999px;
+    font-size:14px;font-weight:500;z-index:1000;
+    box-shadow:var(--shadow-lg);
+    opacity:0;transition:all .35s ease;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  /* REVEAL */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:translateY(0)}
+
+  /* RESPONSIVE */
+  @media (max-width:980px){
+    .hero-grid,.duo-grid,.contact-grid{grid-template-columns:1fr;gap:36px}
+    .reviews-grid,.why-grid,.extra-grid{grid-template-columns:repeat(2,1fr)}
+    .process-steps{grid-template-columns:repeat(2,1fr)}
+    .footer-inner{grid-template-columns:1fr 1fr;gap:32px}
+    .hero-visual{grid-template-columns:1fr;gap:14px}
+    .hero-stages,.hero-extras{flex-direction:row;gap:14px}
+    .stage-card,.hero-mini{padding:20px 18px}
+    .stage-card h3{font-size:18px}
+    .hero-mini h4{font-size:14.5px}
+  }
+  @media (max-width:640px){
+    .nav-links{display:none}
+    .burger{display:block}
+    .nav-cta{display:none}
+    .hero{padding:120px 20px 60px}
+    .section{padding:70px 20px}
+    .hero-actions{flex-direction:column;align-items:stretch}
+    .btn{justify-content:center}
+    .reviews-grid,.why-grid,.extra-grid{grid-template-columns:1fr}
+    .hero-stages,.hero-extras{flex-direction:column}
+    .process-steps{grid-template-columns:1fr}
+    .footer-inner{grid-template-columns:1fr}
+    .contact-grid{padding:32px 24px}
+    .form-row,.review-form-grid{grid-template-columns:1fr}
+    .duo-card{padding:36px 28px}
+    .reviews-empty{padding:40px 28px}
+    .review-form-wrap{padding:28px 22px}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo"><span class="logo-mark">M</span>Madi<span>'O</span></a>
+    <ul class="nav-links">
+      <li><a href="#prestations">Prestations</a></li>
+      <li><a href="#process">Comment ça marche</a></li>
+      <li><a href="#avis">Avis</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Demander un devis</a>
+    <button class="burger" aria-label="Menu">☰</button>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-grain"></div>
+  <div class="hero-inner">
+    <div class="hero-grid">
+      <div class="reveal">
+        <span class="hero-eyebrow">Accueil voyageurs · 7j/7</span>
+        <h1 class="hero-title">L'arrivée et le départ de vos voyageurs, <em>parfaitement orchestrés</em>.</h1>
+        <p class="hero-sub">Madi'O est votre conciergerie dédiée aux <strong>arrivées</strong> et aux <strong>départs</strong> de vos locataires : remise des clés, accueil personnalisé, état des lieux, restitution. Vous n'avez plus à vous déplacer, vos voyageurs sont entre de bonnes mains.</p>
+        <div class="hero-actions">
+          <a href="#prestations" class="btn btn-primary">Voir les prestations <span class="btn-arrow">→</span></a>
+          <a href="#contact" class="btn btn-ghost">Demander un devis</a>
+        </div>
+        <div class="hero-bullets">
+          <div><span class="b-icon">✓</span>Disponible 7j/7</div>
+          <div><span class="b-icon">✓</span>Délais flexibles</div>
+          <div><span class="b-icon">✓</span>Reporting photo</div>
+        </div>
+      </div>
+
+      <div class="hero-visual reveal">
+        <div class="hero-stages">
+          <div class="stage-card stage-arrivee">
+            <span class="stage-tag">Étape 01 · Arrivée</span>
+            <h3>Accueil <em>voyageurs</em></h3>
+            <p>Présence sur place, remise des clés en main propre, présentation du logement et des règles d'usage.</p>
+            <div class="stage-foot">
+              <span>Check-in personnalisé</span>
+              <div class="stage-icon">🗝️</div>
+            </div>
+          </div>
+          <div class="stage-card stage-depart">
+            <span class="stage-tag">Étape 02 · Départ</span>
+            <h3>Gestion du <em>départ</em></h3>
+            <p>État des lieux de sortie, vérification du logement, restitution des clés et compte-rendu détaillé.</p>
+            <div class="stage-foot">
+              <span>Check-out maîtrisé</span>
+              <div class="stage-icon">📋</div>
+            </div>
+          </div>
+        </div>
+        <div class="hero-extras">
+          <div class="hero-mini hero-mini-menage">
+            <span class="hero-mini-tag">Ménage</span>
+            <h4>Ménage entre voyageurs</h4>
+            <p>Remise en état complète : sols, sanitaires, cuisine, dépoussiérage, aération.</p>
+            <div class="hero-mini-foot">
+              <span class="hero-mini-icon">🧹</span>
+              <span class="hero-mini-price">50–80€</span>
+            </div>
+          </div>
+          <div class="hero-mini hero-mini-linge">
+            <span class="hero-mini-tag">Linge</span>
+            <h4>Gestion du linge</h4>
+            <p>Lavage, séchage, repassage et remise en place. Lits refaits, linge plié.</p>
+            <div class="hero-mini-foot">
+              <span class="hero-mini-icon">🧺</span>
+              <span class="hero-mini-price">25€</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- LES 2 PRESTATIONS -->
+<section class="section duo-section" id="prestations">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-eyebrow">Nos prestations</span>
+      <h2 class="section-title">De l'arrivée au départ, <em>tout est pris en charge</em>.</h2>
+      <p class="section-lead">Des prestations claires, des tarifs transparents. Choisissez à la carte, ou optez pour notre pack complet qui couvre l'intégralité du séjour.</p>
+    </div>
+
+    <div class="duo-grid">
+      <!-- ARRIVÉE -->
+      <article class="duo-card duo-arrivee reveal">
+        <span class="duo-badge">Service · Arrivée</span>
+        <h3>Accueil voyageurs</h3>
+        <p class="duo-desc">Une arrivée soignée et rassurante. Nous accueillons vos voyageurs sur place, peu importe l'heure, et leur faisons découvrir le logement comme il se doit.</p>
+        <ul class="duo-list">
+          <li><span class="duo-list-icon">✓</span>Accueil physique sur place</li>
+          <li><span class="duo-list-icon">✓</span>Remise des clés en main propre</li>
+          <li><span class="duo-list-icon">✓</span>Présentation du logement & des équipements</li>
+          <li><span class="duo-list-icon">✓</span>Rappel des règles d'usage et du règlement</li>
+          <li><span class="duo-list-icon">✓</span>Vérification d'identité (si demandée)</li>
+          <li><span class="duo-list-icon">✓</span>Disponible y compris en soirée & week-end</li>
+        </ul>
+        <div class="duo-pricing">
+          <span class="duo-pricing-label">À partir de</span>
+          <span class="duo-pricing-value">25€<small> / arrivée</small></span>
+        </div>
+        <a href="#contact" class="duo-cta">Réserver une arrivée <span>→</span></a>
+        <span class="duo-decor">A</span>
+      </article>
+
+      <!-- DÉPART -->
+      <article class="duo-card duo-depart reveal">
+        <span class="duo-badge">Service · Départ</span>
+        <h3>Gestion du départ</h3>
+        <p class="duo-desc">Un départ contrôlé, sans surprise. Nous vérifions le logement, réalisons l'état des lieux et vous transmettons un compte-rendu photo complet.</p>
+        <ul class="duo-list">
+          <li><span class="duo-list-icon">✓</span>État des lieux de sortie complet</li>
+          <li><span class="duo-list-icon">✓</span>Récupération des clés</li>
+          <li><span class="duo-list-icon">✓</span>Vérification de l'état du logement</li>
+          <li><span class="duo-list-icon">✓</span>Compte-rendu photo détaillé</li>
+          <li><span class="duo-list-icon">✓</span>Signalement immédiat des incidents</li>
+          <li><span class="duo-list-icon">✓</span>Restitution sécurisée du logement</li>
+        </ul>
+        <div class="duo-pricing">
+          <span class="duo-pricing-label">À partir de</span>
+          <span class="duo-pricing-value">25€<small> / départ</small></span>
+        </div>
+        <a href="#contact" class="duo-cta">Réserver un départ <span>→</span></a>
+        <span class="duo-decor">D</span>
+      </article>
+    </div>
+
+    <!-- Prestations complémentaires -->
+    <div class="extra-grid">
+      <article class="extra-card reveal">
+        <div class="extra-head">
+          <div class="extra-icon">🧹</div>
+          <div class="extra-tag">Ménage</div>
+        </div>
+        <h4>Ménage entre voyageurs</h4>
+        <p>Remise en état complète du logement entre deux séjours : sols, sanitaires, cuisine, dépoussiérage, sortie des poubelles, aération.</p>
+        <ul class="extra-list">
+          <li><span class="extra-li-icon">✓</span>Studio / T1 — <strong>50€</strong></li>
+          <li><span class="extra-li-icon">✓</span>T2 — <strong>60€</strong></li>
+          <li><span class="extra-li-icon">✓</span>T3 — <strong>70€</strong></li>
+          <li><span class="extra-li-icon">✓</span>T4 — <strong>80€</strong></li>
+        </ul>
+        <div class="extra-price">
+          <span class="extra-price-label">De</span>
+          <span class="extra-price-value">50€<small> à 80€</small></span>
+        </div>
+        <a href="#contact" class="extra-cta">Réserver un ménage <span>→</span></a>
+      </article>
+
+      <article class="extra-card reveal">
+        <div class="extra-head">
+          <div class="extra-icon">🧺</div>
+          <div class="extra-tag">Linge</div>
+        </div>
+        <h4>Gestion du linge</h4>
+        <p>Récupération du linge sale, lavage, séchage, repassage, pliage et remise en place. Draps, serviettes, torchons — tout est prêt pour le prochain séjour.</p>
+        <ul class="extra-list">
+          <li><span class="extra-li-icon">✓</span>Linge de lit & de toilette</li>
+          <li><span class="extra-li-icon">✓</span>Lavage soigné</li>
+          <li><span class="extra-li-icon">✓</span>Lits refaits, linge plié</li>
+        </ul>
+        <div class="extra-price">
+          <span class="extra-price-label">Forfait</span>
+          <span class="extra-price-value">25€<small> / prestation</small></span>
+        </div>
+        <a href="#contact" class="extra-cta">Réserver le linge <span>→</span></a>
+      </article>
+
+      <article class="extra-card extra-pack reveal">
+        <div class="extra-ribbon">Le + complet</div>
+        <div class="extra-head">
+          <div class="extra-icon">✨</div>
+          <div class="extra-tag">Pack complet</div>
+        </div>
+        <h4>Séjour clé en main</h4>
+        <p>Tout est inclus : accueil voyageurs, ménage entre les séjours et gestion du linge. Vous déléguez l'intégralité du séjour, vous gagnez du temps et économisez.</p>
+        <ul class="extra-list">
+          <li><span class="extra-li-icon">✓</span>Accueil & remise des clés</li>
+          <li><span class="extra-li-icon">✓</span>Ménage complet du logement</li>
+          <li><span class="extra-li-icon">✓</span>Gestion intégrale du linge</li>
+        </ul>
+        <div class="extra-price">
+          <span class="extra-price-label">À partir de</span>
+          <span class="extra-price-value">115€<small> / séjour</small></span>
+        </div>
+        <a href="#contact" class="extra-cta extra-cta-light">Réserver le pack <span>→</span></a>
+      </article>
+    </div>
+
+    <p style="text-align:center;margin-top:40px;font-size:13.5px;color:var(--muted);max-width:720px;margin-left:auto;margin-right:auto">
+      Tarifs ménage indicatifs selon la superficie et l'état du logement. Forfaits dégressifs disponibles pour les prestations régulières (plus de 4 par mois). Devis sur mesure pour les multi-biens.
+    </p>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="section process-section" id="process">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-eyebrow">Comment ça marche</span>
+      <h2 class="section-title">Simple, <em>rapide</em>, sans tracas.</h2>
+      <p class="section-lead">Quatre étapes pour confier sereinement vos arrivées et départs.</p>
+    </div>
+
+    <div class="process-steps">
+      <div class="process-step reveal">
+        <div class="step-num">1</div>
+        <h4>Vous nous contactez</h4>
+        <p>Par téléphone, mail ou formulaire. Indiquez-nous le bien, les dates et le type de prestation souhaitée.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="step-num">2</div>
+        <h4>Devis & confirmation</h4>
+        <p>Vous recevez un devis clair sous 24h. Validation simple par retour de mail.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="step-num">3</div>
+        <h4>Intervention sur place</h4>
+        <p>Nous accueillons ou nous occupons du départ, selon le créneau convenu — même tardif.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="step-num">4</div>
+        <h4>Compte-rendu</h4>
+        <p>Vous recevez un récapitulatif (photos pour les départs) et la confirmation de la prestation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AVIS -->
+<section class="section reviews-section" id="avis">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-eyebrow">Avis clients</span>
+      <h2 class="section-title">Vos retours, <em>uniquement vos vrais retours</em>.</h2>
+      <p class="section-lead">Nous n'affichons aucun avis fictif. Chaque commentaire visible ici a été laissé par un client réel après une prestation Madi'O.</p>
+    </div>
+
+    <!-- État vide par défaut : aucun avis publié -->
+    <div class="reviews-empty reveal" id="emptyReviews">
+      <div class="empty-stars">☆ ☆ ☆ ☆ ☆</div>
+      <h3>Soyez les premiers à témoigner.</h3>
+      <p>Madi'O est jeune et fait ses premiers pas. Si vous avez bénéficié d'une de nos prestations, votre retour fait toute la différence pour les futurs voyageurs et propriétaires.</p>
+      <button class="btn btn-primary" id="openReviewForm">Laisser un avis <span class="btn-arrow">→</span></button>
+    </div>
+
+    <!-- Conteneur où les vrais avis (envoyés via le formulaire) viendront s'afficher -->
+    <div class="reviews-grid" id="reviewsGrid" style="display:none"></div>
+
+    <!-- Formulaire de dépôt d'avis (masqué par défaut) -->
+    <div class="review-form-wrap reveal" id="reviewFormWrap">
+      <h4>Laisser un avis</h4>
+      <form id="reviewForm">
+        <div class="star-input" id="starInput" aria-label="Note de 1 à 5">
+          <span class="star" data-value="1">★</span>
+          <span class="star" data-value="2">★</span>
+          <span class="star" data-value="3">★</span>
+          <span class="star" data-value="4">★</span>
+          <span class="star" data-value="5">★</span>
+        </div>
+        <input type="hidden" id="ratingValue" name="rating" value="0" required>
+
+        <div class="review-form-grid">
+          <div class="rf-field">
+            <label for="rf-name">Prénom & initiale</label>
+            <input type="text" id="rf-name" placeholder="Ex. Claire L." required>
+          </div>
+          <div class="rf-field">
+            <label for="rf-role">Vous êtes…</label>
+            <select id="rf-role" required>
+              <option value="">— Choisir —</option>
+              <option>Propriétaire</option>
+              <option>Voyageur</option>
+              <option>Locataire</option>
+              <option>Autre</option>
+            </select>
+          </div>
+        </div>
+        <div class="rf-field full">
+          <label for="rf-prestation">Prestation concernée</label>
+          <select id="rf-prestation" required>
+            <option value="">— Choisir —</option>
+            <option>Arrivée — Accueil voyageurs</option>
+            <option>Départ — Gestion du départ</option>
+            <option>Ménage entre voyageurs</option>
+            <option>Gestion du linge</option>
+            <option>Pack complet séjour</option>
+            <option>Plusieurs prestations</option>
+          </select>
+        </div>
+        <div class="rf-field full">
+          <label for="rf-message">Votre commentaire</label>
+          <textarea id="rf-message" placeholder="Racontez votre expérience en quelques mots…" required></textarea>
+        </div>
+        <button type="submit" class="review-submit">Envoyer mon avis</button>
+        <p class="rf-note">🔒 Votre avis sera transmis à Madi'O par email. Il ne sera publié qu'après validation par notre équipe afin de garantir l'authenticité de chaque témoignage.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- POURQUOI -->
+<section class="section why-section">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-eyebrow">Nos garanties</span>
+      <h2 class="section-title">Quatre raisons <em>de nous choisir</em>.</h2>
+    </div>
+    <div class="why-grid">
+      <div class="why-card reveal">
+        <div class="why-icon">🕐</div>
+        <h4>Ponctualité</h4>
+        <p>Engagement contractuel sur les horaires. Voyageurs accueillis à l'heure convenue, y compris tardivement.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon">📸</div>
+        <h4>Reporting photo</h4>
+        <p>Compte-rendu photo systématique après chaque départ. Vous savez exactement dans quel état est votre bien.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon">🛡️</div>
+        <h4>Société déclarée</h4>
+        <p>Madi'O est immatriculée (SIRET 104 279 484 00018). Facturation, assurance et fiabilité garanties.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon">💬</div>
+        <h4>Communication directe</h4>
+        <p>Un interlocuteur unique, joignable rapidement, qui connaît vos biens et vos préférences.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section contact-section" id="contact">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="section-eyebrow">Prenons contact</span>
+      <h2 class="section-title">Confiez-nous votre <em>prochaine arrivée</em>.</h2>
+      <p class="section-lead">Décrivez-nous votre besoin et nous revenons vers vous sous 24h ouvrées — sans engagement.</p>
+    </div>
+
+    <div class="contact-grid reveal">
+      <div class="contact-info">
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <div>
+            <h5>Téléphone</h5>
+            <p><a href="tel:+33760697215">07 60 69 72 15</a></p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">✉️</div>
+          <div>
+            <h5>Email</h5>
+            <p><a href="mailto:Madio.francomme@gmail.com">Madio.francomme@gmail.com</a></p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">🏢</div>
+          <div>
+            <h5>SIRET</h5>
+            <p>104 279 484 00018</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">🕐</div>
+          <div>
+            <h5>Disponibilité</h5>
+            <p>7j/7 · Soirées & week-ends inclus</p>
+          </div>
+        </div>
+      </div>
+
+      <form class="contact-form" id="contactForm">
+        <div class="form-row">
+          <div class="form-field">
+            <label for="prenom">Prénom</label>
+            <input type="text" id="prenom" required>
+          </div>
+          <div class="form-field">
+            <label for="nom">Nom</label>
+            <input type="text" id="nom" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="email">Email</label>
+            <input type="email" id="email" required>
+          </div>
+          <div class="form-field">
+            <label for="tel">Téléphone</label>
+            <input type="tel" id="tel" required>
+          </div>
+        </div>
+        <div class="form-field">
+          <label for="service">Prestation souhaitée</label>
+          <select id="service" required>
+            <option value="">— Choisir une prestation —</option>
+            <option>Arrivée — Accueil voyageurs (25€)</option>
+            <option>Départ — Gestion du départ (25€)</option>
+            <option>Ménage entre voyageurs (50–80€)</option>
+            <option>Gestion du linge (25€)</option>
+            <option>Pack complet séjour (à partir de 115€)</option>
+            <option>Prestations régulières (multi-biens / multi-séjours)</option>
+            <option>Autre / je ne sais pas encore</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="message">Détails de votre demande</label>
+          <textarea id="message" placeholder="Adresse du bien, dates, horaires souhaités, particularités…"></textarea>
+        </div>
+        <button type="submit" class="form-submit">Envoyer ma demande <span>→</span></button>
+        <p class="form-note">🔒 Vos informations restent strictement confidentielles. RGPD.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="#" class="logo" style="color:var(--cream)"><span class="logo-mark">M</span>Madi<span style="color:var(--terracotta-400)">'O</span></a>
+      <p>Conciergerie dédiée aux arrivées et départs de vos voyageurs. Simple, professionnel, humain.</p>
+    </div>
+    <div>
+      <h6>Prestations</h6>
+      <ul>
+        <li><a href="#prestations">Accueil voyageurs</a></li>
+        <li><a href="#prestations">Gestion du départ</a></li>
+        <li><a href="#prestations">Ménage entre séjours</a></li>
+        <li><a href="#prestations">Gestion du linge</a></li>
+        <li><a href="#prestations">Pack complet séjour</a></li>
+      </ul>
+    </div>
+    <div>
+      <h6>Madi'O</h6>
+      <ul>
+        <li><a href="#process">Comment ça marche</a></li>
+        <li><a href="#avis">Avis clients</a></li>
+        <li><a href="#contact">Nous contacter</a></li>
+      </ul>
+    </div>
+    <div>
+      <h6>Contact</h6>
+      <ul>
+        <li><a href="tel:+33760697215">07 60 69 72 15</a></li>
+        <li><a href="mailto:Madio.francomme@gmail.com">Madio.francomme@gmail.com</a></li>
+        <li>SIRET : 104 279 484 00018</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Madi'O. Tous droits réservés.</span>
+    <span>Made with ❤ in France</span>
+  </div>
+</footer>
+
+<div class="toast" id="toast">✓ Demande envoyée — nous vous recontactons sous 24h.</div>
+
+<script>
+  // ===== REVEAL =====
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, {threshold:0.12});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // ===== TOAST helper =====
+  const toast = document.getElementById('toast');
+  function showToast(msg){
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 4500);
+  }
+
+  // ===== Formulaire contact (envoi mailto) =====
+  document.getElementById('contactForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const prenom  = document.getElementById('prenom').value;
+    const nom     = document.getElementById('nom').value;
+    const email   = document.getElementById('email').value;
+    const tel     = document.getElementById('tel').value;
+    const service = document.getElementById('service').value;
+    const message = document.getElementById('message').value;
+
+    const subject = encodeURIComponent('Demande de devis Madi\'O — ' + service);
+    const body = encodeURIComponent(
+      `Bonjour,\n\nNouvelle demande via le site Madi'O.\n\n`
+      + `Nom : ${prenom} ${nom}\n`
+      + `Email : ${email}\n`
+      + `Téléphone : ${tel}\n`
+      + `Prestation souhaitée : ${service}\n\n`
+      + `Détails :\n${message}\n\n`
+      + `Merci de me recontacter.`
+    );
+    window.location.href = `mailto:Madio.francomme@gmail.com?subject=${subject}&body=${body}`;
+    showToast('✓ Votre messagerie va s\'ouvrir pour finaliser l\'envoi.');
+    setTimeout(() => e.target.reset(), 500);
+  });
+
+  // ===== Avis : ouverture formulaire =====
+  const openReviewBtn = document.getElementById('openReviewForm');
+  const reviewFormWrap = document.getElementById('reviewFormWrap');
+  openReviewBtn.addEventListener('click', () => {
+    reviewFormWrap.classList.add('open');
+    reviewFormWrap.scrollIntoView({behavior:'smooth', block:'center'});
+  });
+
+  // ===== Étoiles cliquables =====
+  const stars = document.querySelectorAll('#starInput .star');
+  const ratingInput = document.getElementById('ratingValue');
+  stars.forEach(star => {
+    star.addEventListener('click', () => {
+      const val = parseInt(star.dataset.value, 10);
+      ratingInput.value = val;
+      stars.forEach(s => {
+        s.classList.toggle('active', parseInt(s.dataset.value, 10) <= val);
+      });
+    });
+    star.addEventListener('mouseover', () => {
+      const val = parseInt(star.dataset.value, 10);
+      stars.forEach(s => {
+        s.style.color = parseInt(s.dataset.value, 10) <= val ? 'var(--terracotta-500)' : '';
+      });
+    });
+    star.addEventListener('mouseout', () => {
+      stars.forEach(s => s.style.color = '');
+    });
+  });
+
+  // ===== Formulaire d'avis : envoi vers Madi'O par email =====
+  document.getElementById('reviewForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const rating = ratingInput.value;
+    if(rating === '0'){
+      showToast('Merci de donner une note de 1 à 5 étoiles.');
+      return;
+    }
+    const name = document.getElementById('rf-name').value;
+    const role = document.getElementById('rf-role').value;
+    const prestation = document.getElementById('rf-prestation').value;
+    const message = document.getElementById('rf-message').value;
+
+    const subject = encodeURIComponent(`Nouvel avis Madi'O — ${rating}/5 étoiles`);
+    const body = encodeURIComponent(
+      `Bonjour,\n\nNouvel avis client à valider pour publication sur le site Madi'O.\n\n`
+      + `Note : ${rating} / 5 étoiles\n`
+      + `Nom : ${name}\n`
+      + `Profil : ${role}\n`
+      + `Prestation : ${prestation}\n\n`
+      + `Commentaire :\n${message}\n\n`
+      + `— Avis transmis depuis madio.fr`
+    );
+    window.location.href = `mailto:Madio.francomme@gmail.com?subject=${subject}&body=${body}`;
+    showToast('✓ Merci ! Votre avis va être transmis par mail.');
+    setTimeout(() => {
+      e.target.reset();
+      stars.forEach(s => s.classList.remove('active'));
+      ratingInput.value = '0';
+      reviewFormWrap.classList.remove('open');
+    }, 600);
+  });
+
+  // ===== Nav shrink =====
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    nav.style.padding = window.scrollY > 30 ? '12px 0' : '18px 0';
+  });
+</script>
+
+</body>
+</html>
