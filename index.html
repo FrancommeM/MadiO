@@ -692,6 +692,11 @@
     margin-top:6px;
   }
   .form-submit:hover{background:var(--terracotta-400);transform:translateY(-2px);box-shadow:0 10px 24px -8px rgba(217,119,87,.5)}
+  .form-submit:disabled{
+    opacity:0.6;
+    cursor:not-allowed;
+    transform:none;
+  }
   .form-note{font-size:12.5px;color:rgba(250,243,236,.55);text-align:center;margin-top:4px}
 
   /* FOOTER */
@@ -1435,11 +1440,36 @@
 
   // ===== Formulaire contact (Formspree Ajax officiel) =====
   window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+  
+  // Personnalisation du comportement du bouton
+  const contactForm = document.getElementById('contactForm');
+  const submitBtn = contactForm.querySelector('[data-fs-submit-btn]');
+  const originalBtnText = submitBtn.innerHTML;
+  
+  contactForm.addEventListener('submit', function() {
+    submitBtn.innerHTML = 'Envoi en cours... ⏳';
+    submitBtn.style.opacity = '0.6';
+    submitBtn.style.cursor = 'not-allowed';
+  });
+  
   formspree('initForm', { 
     formElement: '#contactForm', 
     formId: 'xojrgbze',
     onSuccess: function() {
       showToast('✓ Demande envoyée — nous vous recontactons sous 24h.');
+      // Vider le formulaire automatiquement
+      contactForm.reset();
+      // Remettre le bouton en état normal après 10 secondes
+      setTimeout(() => {
+        submitBtn.innerHTML = originalBtnText;
+        submitBtn.style.opacity = '1';
+        submitBtn.style.cursor = 'pointer';
+      }, 10000);
+    },
+    onError: function() {
+      submitBtn.innerHTML = originalBtnText;
+      submitBtn.style.opacity = '1';
+      submitBtn.style.cursor = 'pointer';
     }
   });
 
