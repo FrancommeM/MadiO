@@ -1271,36 +1271,30 @@
       </div>
 
       <form class="contact-form" id="contactForm" action="https://formspree.io/f/xojrgbze" method="POST">
-        <!-- Champs cachés pour personnaliser l'email -->
         <input type="hidden" name="_subject" value="Nouvelle réservation client Madi'O">
-        <input type="hidden" name="_replyto" value="email">
         <div class="form-row">
           <div class="form-field">
             <label for="prenom">Prénom</label>
-            <input type="text" id="prenom" name="prenom" data-fs-field required>
-            <span data-fs-error="prenom" style="color:#C00000;font-size:12px;margin-top:4px;display:block"></span>
+            <input type="text" id="prenom" name="prenom" required>
           </div>
           <div class="form-field">
             <label for="nom">Nom</label>
-            <input type="text" id="nom" name="nom" data-fs-field required>
-            <span data-fs-error="nom" style="color:#C00000;font-size:12px;margin-top:4px;display:block"></span>
+            <input type="text" id="nom" name="nom" required>
           </div>
         </div>
         <div class="form-row">
           <div class="form-field">
             <label for="email">Email</label>
-            <input type="email" id="email" name="email" data-fs-field required>
-            <span data-fs-error="email" style="color:#C00000;font-size:12px;margin-top:4px;display:block"></span>
+            <input type="email" id="email" name="email" required>
           </div>
           <div class="form-field">
             <label for="tel">Téléphone</label>
-            <input type="tel" id="tel" name="telephone" data-fs-field required>
-            <span data-fs-error="telephone" style="color:#C00000;font-size:12px;margin-top:4px;display:block"></span>
+            <input type="tel" id="tel" name="telephone" required>
           </div>
         </div>
         <div class="form-field">
           <label for="service">Prestation souhaitée</label>
-          <select id="service" name="prestation" data-fs-field required>
+          <select id="service" name="prestation" required>
             <option value="">— Choisir une prestation —</option>
             <option>Arrivée — Accueil voyageurs (25€)</option>
             <option>Départ — Gestion du départ (25€)</option>
@@ -1310,23 +1304,15 @@
             <option>Prestations régulières (multi-biens / multi-séjours)</option>
             <option>Autre / je ne sais pas encore</option>
           </select>
-          <span data-fs-error="prestation" style="color:#C00000;font-size:12px;margin-top:4px;display:block"></span>
         </div>
         <div class="form-field">
           <label for="message">Détails de votre demande</label>
-          <textarea id="message" name="message" data-fs-field placeholder="Adresse du bien, dates, horaires souhaités, particularités…"></textarea>
-          <span data-fs-error="message" style="color:#C00000;font-size:12px;margin-top:4px;display:block"></span>
+          <textarea id="message" name="message" placeholder="Adresse du bien, dates, horaires souhaités, particularités…"></textarea>
         </div>
-        <button type="submit" class="form-submit" data-fs-submit-btn>Envoyer ma demande <span>→</span></button>
+        <button type="submit" class="form-submit">Envoyer ma demande <span>→</span></button>
         <p class="form-note">🔒 Vos informations restent strictement confidentielles. RGPD.</p>
         
-        <!-- Messages de succès et d'erreur Formspree -->
-        <div data-fs-success style="display:none; margin-top:20px; padding:15px; border-radius:8px; text-align:center; font-size:14px; background:#C6EFCE; color:#006100;">
-          ✅ <strong>Message envoyé avec succès !</strong><br>Nous vous recontactons sous 24h.
-        </div>
-        <div data-fs-error style="display:none; margin-top:20px; padding:15px; border-radius:8px; text-align:center; font-size:14px; background:#FFE6E6; color:#C00000;">
-          ❌ Une erreur s'est produite. Veuillez réessayer ou nous appeler au 07 60 69 72 15.
-        </div>
+        <div id="form-status" style="display:none; margin-top:20px; padding:15px; border-radius:8px; text-align:center; font-size:14px;"></div>
       </form>
     </div>
   </div>
@@ -1441,39 +1427,12 @@
     setTimeout(() => toast.classList.remove('show'), 4500);
   }
 
-  // ===== Formulaire contact (Formspree Ajax officiel) =====
-  window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
-  
-  // Personnalisation du comportement du bouton
+  // ===== Formulaire contact (HTML basique - pas de JavaScript) =====
+  // Le formulaire s'envoie directement via POST sans JavaScript
   const contactForm = document.getElementById('contactForm');
-  const submitBtn = contactForm.querySelector('[data-fs-submit-btn]');
-  const originalBtnText = submitBtn.innerHTML;
-  
   contactForm.addEventListener('submit', function() {
-    submitBtn.innerHTML = 'Envoi en cours... ⏳';
-    submitBtn.style.opacity = '0.6';
-    submitBtn.style.cursor = 'not-allowed';
-  });
-  
-  formspree('initForm', { 
-    formElement: '#contactForm', 
-    formId: 'xojrgbze',
-    onSuccess: function() {
-      showToast('✓ Demande envoyée — nous vous recontactons sous 24h.');
-      // Vider le formulaire automatiquement
-      contactForm.reset();
-      // Remettre le bouton en état normal après 10 secondes
-      setTimeout(() => {
-        submitBtn.innerHTML = originalBtnText;
-        submitBtn.style.opacity = '1';
-        submitBtn.style.cursor = 'pointer';
-      }, 10000);
-    },
-    onError: function() {
-      submitBtn.innerHTML = originalBtnText;
-      submitBtn.style.opacity = '1';
-      submitBtn.style.cursor = 'pointer';
-    }
+    // Laisser le formulaire s'envoyer naturellement
+    showToast('⏳ Envoi en cours...');
   });
 
   // ===== Avis : ouverture formulaire =====
@@ -1545,9 +1504,6 @@
     nav.style.padding = window.scrollY > 30 ? '12px 0' : '18px 0';
   });
 </script>
-
-<!-- Bibliothèque Formspree Ajax officielle -->
-<script src="https://unpkg.com/@formspree/ajax@1" defer></script>
 
 </body>
 </html>
