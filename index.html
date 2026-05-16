@@ -1271,7 +1271,7 @@
       </div>
 
       <form class="contact-form" id="contactForm" action="https://formspree.io/f/xojrgbze" method="POST">
-        <input type="hidden" name="subject" value="Nouvelle réservation client Madi'O">
+        <!-- L'objet sera personnalisé avec le nom du client via JavaScript -->
         <div class="form-row">
           <div class="form-field">
             <label for="prenom">Prénom</label>
@@ -1436,16 +1436,24 @@
   contactForm.addEventListener('submit', async function(e) {
     e.preventDefault(); // Empêcher l'envoi par défaut
     
+    // Récupérer les valeurs du formulaire
+    const prenom = document.getElementById('prenom').value;
+    const nom = document.getElementById('nom').value;
+    
     // Changer le bouton
     submitBtn.disabled = true;
     submitBtn.innerHTML = 'Envoi en cours... ⏳';
     submitBtn.style.opacity = '0.6';
     
     try {
+      // Créer le FormData et ajouter un objet personnalisé
+      const formData = new FormData(contactForm);
+      formData.append('subject', `Réservation ${prenom} ${nom} - Madi'O`);
+      
       // Envoyer via fetch
       const response = await fetch(contactForm.action, {
         method: 'POST',
-        body: new FormData(contactForm),
+        body: formData,
         headers: {
           'Accept': 'application/json'
         }
