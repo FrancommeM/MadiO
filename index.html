@@ -732,18 +732,39 @@
   .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
   .reveal.in{opacity:1;transform:translateY(0)}
 
-  /* RESPONSIVE */
-  @media (max-width:980px){
-    .hero-grid,.duo-grid,.contact-grid{grid-template-columns:1fr;gap:36px}
-    .reviews-grid,.why-grid,.extra-grid{grid-template-columns:repeat(2,1fr)}
-    .process-steps{grid-template-columns:repeat(2,1fr)}
-    .footer-inner{grid-template-columns:1fr 1fr;gap:32px}
+  /* RESPONSIVE - SYSTÈME ADAPTATIF MULTI-APPAREILS */
+  
+  /* Tablettes paysage & petits écrans desktop (1024px - 1280px) */
+  @media (max-width:1280px){
+    .container{max-width:960px;padding:0 32px}
+    .hero{padding:140px 32px 80px}
+    .section{padding:80px 32px}
+  }
+  
+  /* Tablettes (768px - 1024px) */
+  @media (max-width:1024px){
+    .container{max-width:720px;padding:0 28px}
+    .hero-title{font-size:52px}
+    .section-title{font-size:34px}
+    .duo-card h3{font-size:28px}
     .hero-visual{grid-template-columns:1fr;gap:14px}
     .hero-stages,.hero-extras{flex-direction:row;gap:14px}
     .stage-card,.hero-mini{padding:20px 18px}
     .stage-card h3{font-size:18px}
     .hero-mini h4{font-size:14.5px}
   }
+  
+  /* Tablettes portrait & petites tablettes (640px - 980px) */
+  @media (max-width:980px){
+    .hero-grid,.duo-grid,.contact-grid{grid-template-columns:1fr;gap:36px}
+    .reviews-grid,.why-grid,.extra-grid{grid-template-columns:repeat(2,1fr)}
+    .process-steps{grid-template-columns:repeat(2,1fr)}
+    .footer-inner{grid-template-columns:1fr 1fr;gap:32px}
+    .hero-title{font-size:44px}
+    .section-title{font-size:30px}
+  }
+  
+  /* Smartphones paysage & petites tablettes (480px - 640px) */
   @media (max-width:640px){
     .nav-links{display:none}
     .burger{display:block}
@@ -751,7 +772,7 @@
     .hero{padding:120px 20px 60px}
     .section{padding:70px 20px}
     .hero-actions{flex-direction:column;align-items:stretch}
-    .btn{justify-content:center}
+    .btn{justify-content:center;width:100%}
     .reviews-grid,.why-grid,.extra-grid{grid-template-columns:1fr}
     .hero-stages,.hero-extras{flex-direction:column}
     .process-steps{grid-template-columns:1fr}
@@ -761,6 +782,105 @@
     .duo-card{padding:36px 28px}
     .reviews-empty{padding:40px 28px}
     .review-form-wrap{padding:28px 22px}
+    .hero-title{font-size:36px;line-height:1.15}
+    .section-title{font-size:26px}
+    .duo-card h3{font-size:24px}
+  }
+  
+  /* Smartphones portrait (< 480px) */
+  @media (max-width:480px){
+    .container{padding:0 16px}
+    .hero{padding:100px 16px 50px}
+    .section{padding:60px 16px}
+    .hero-title{font-size:32px}
+    .hero-lead{font-size:16px}
+    .section-title{font-size:24px}
+    .section-lead{font-size:15px}
+    .btn{padding:14px 24px;font-size:14px}
+    .stage-card,.hero-mini{padding:18px 16px}
+    .duo-card{padding:32px 24px}
+    .process-step{padding:28px 20px}
+    .contact-grid{padding:28px 20px}
+    .form-field input,.form-field select,.form-field textarea{font-size:16px} /* Évite le zoom automatique sur iOS */
+    .footer-inner{gap:28px}
+  }
+  
+  /* Très petits écrans (< 360px) */
+  @media (max-width:360px){
+    .hero-title{font-size:28px}
+    .section-title{font-size:22px}
+    .btn{padding:12px 20px;font-size:13px}
+    .logo{font-size:22px}
+  }
+  
+  /* Optimisations spécifiques pour les écrans tactiles */
+  @media (hover: none) and (pointer: coarse){
+    .btn,.form-submit,.extra-cta,.nav-cta{
+      min-height:44px; /* Zone de toucher Apple recommandée */
+      padding:14px 26px;
+    }
+    .burger{
+      min-width:44px;
+      min-height:44px;
+    }
+    .form-field input,.form-field select,.form-field textarea{
+      min-height:44px; /* Meilleure accessibilité tactile */
+    }
+  }
+  
+  /* Optimisations iOS spécifiques */
+  .os-ios .form-field input,
+  .os-ios .form-field select,
+  .os-ios .form-field textarea{
+    font-size:16px !important; /* Évite le zoom auto sur iOS */
+  }
+  .os-ios .btn,
+  .os-ios .form-submit{
+    -webkit-tap-highlight-color:transparent; /* Supprime le flash gris au tap */
+  }
+  
+  /* Optimisations Android spécifiques */
+  .os-android .form-field input,
+  .os-android .form-field select{
+    -webkit-appearance:none; /* Supprime le style natif Android */
+  }
+  
+  /* Styles pour appareils tactiles */
+  .touch-device .btn:hover,
+  .touch-device .form-submit:hover,
+  .touch-device .extra-cta:hover{
+    transform:none; /* Pas d'animation hover sur tactile */
+  }
+  .touch-device .btn:active,
+  .touch-device .form-submit:active,
+  .touch-device .extra-cta:active{
+    transform:scale(0.97); /* Feedback visuel au tap */
+  }
+  
+  /* Desktop : animations fluides */
+  .device-desktop .reveal{
+    transition:opacity 1s ease, transform 1s ease;
+  }
+  
+  /* Mobile : animations plus rapides pour la performance */
+  .device-phone .reveal,
+  .device-tablet .reveal{
+    transition:opacity 0.5s ease, transform 0.5s ease;
+  }
+  
+  /* Mode paysage pour smartphones */
+  @media (max-height:500px) and (orientation:landscape){
+    .hero{padding:80px 20px 40px}
+    .section{padding:50px 20px}
+    .hero-title{font-size:32px}
+  }
+  
+  /* Impression (si le client veut imprimer la page) */
+  @media print{
+    nav,.burger,.btn,.form-submit,.toast,.extra-cta{display:none}
+    .hero,.section{padding:20px 0}
+    .hero-title,.section-title{color:#000}
+    body{background:#fff;color:#000}
   }
 </style>
 </head>
@@ -1145,30 +1265,30 @@
         </div>
       </div>
 
-      <form class="contact-form" id="contactForm">
+      <form class="contact-form" id="contactForm" action="https://formspree.io/f/mkgnnjge" method="POST">
         <div class="form-row">
           <div class="form-field">
             <label for="prenom">Prénom</label>
-            <input type="text" id="prenom" required>
+            <input type="text" id="prenom" name="prenom" required>
           </div>
           <div class="form-field">
             <label for="nom">Nom</label>
-            <input type="text" id="nom" required>
+            <input type="text" id="nom" name="nom" required>
           </div>
         </div>
         <div class="form-row">
           <div class="form-field">
             <label for="email">Email</label>
-            <input type="email" id="email" required>
+            <input type="email" id="email" name="email" required>
           </div>
           <div class="form-field">
             <label for="tel">Téléphone</label>
-            <input type="tel" id="tel" required>
+            <input type="tel" id="tel" name="telephone" required>
           </div>
         </div>
         <div class="form-field">
           <label for="service">Prestation souhaitée</label>
-          <select id="service" required>
+          <select id="service" name="prestation" required>
             <option value="">— Choisir une prestation —</option>
             <option>Arrivée — Accueil voyageurs (25€)</option>
             <option>Départ — Gestion du départ (25€)</option>
@@ -1181,10 +1301,11 @@
         </div>
         <div class="form-field">
           <label for="message">Détails de votre demande</label>
-          <textarea id="message" placeholder="Adresse du bien, dates, horaires souhaités, particularités…"></textarea>
+          <textarea id="message" name="message" placeholder="Adresse du bien, dates, horaires souhaités, particularités…"></textarea>
         </div>
         <button type="submit" class="form-submit">Envoyer ma demande <span>→</span></button>
         <p class="form-note">🔒 Vos informations restent strictement confidentielles. RGPD.</p>
+        <div id="form-status" style="display:none; margin-top:20px; padding:15px; border-radius:8px; text-align:center; font-size:14px;"></div>
       </form>
     </div>
   </div>
@@ -1232,6 +1353,54 @@
 <div class="toast" id="toast">✓ Demande envoyée — nous vous recontactons sous 24h.</div>
 
 <script>
+  // ===== DÉTECTION AUTOMATIQUE D'APPAREIL =====
+  (function() {
+    const html = document.documentElement;
+    const width = window.innerWidth;
+    const ua = navigator.userAgent.toLowerCase();
+    
+    // Détection du type d'appareil
+    const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(ua);
+    const isTablet = /(ipad|tablet|playbook|silk)|(android(?!.*mobile))/i.test(ua);
+    const isPhone = isMobile && !isTablet;
+    const isIOS = /ipad|iphone|ipod/.test(ua);
+    const isAndroid = /android/.test(ua);
+    const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+    
+    // Ajouter des classes CSS au body pour ciblage spécifique
+    if (isPhone) html.classList.add('device-phone');
+    if (isTablet) html.classList.add('device-tablet');
+    if (!isMobile) html.classList.add('device-desktop');
+    if (isIOS) html.classList.add('os-ios');
+    if (isAndroid) html.classList.add('os-android');
+    if (isTouchDevice) html.classList.add('touch-device');
+    
+    // Détection de la taille d'écran précise
+    if (width < 360) html.classList.add('screen-xs');
+    else if (width < 480) html.classList.add('screen-sm');
+    else if (width < 640) html.classList.add('screen-md');
+    else if (width < 980) html.classList.add('screen-lg');
+    else if (width < 1280) html.classList.add('screen-xl');
+    else html.classList.add('screen-xxl');
+    
+    // Optimisations spécifiques iOS (éviter le zoom sur focus des inputs)
+    if (isIOS) {
+      const viewport = document.querySelector('meta[name=viewport]');
+      if (viewport) {
+        viewport.setAttribute('content', 
+          'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no');
+      }
+    }
+    
+    // Log pour debug (à retirer en production si besoin)
+    console.log('📱 Appareil détecté:', {
+      type: isPhone ? 'Smartphone' : isTablet ? 'Tablette' : 'Desktop',
+      OS: isIOS ? 'iOS' : isAndroid ? 'Android' : 'Autre',
+      largeur: width + 'px',
+      tactile: isTouchDevice
+    });
+  })();
+
   // ===== REVEAL =====
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => {
@@ -1251,29 +1420,52 @@
     setTimeout(() => toast.classList.remove('show'), 4500);
   }
 
-  // ===== Formulaire contact (envoi mailto) =====
-  document.getElementById('contactForm').addEventListener('submit', e => {
+  // ===== Formulaire contact (envoi via Formspree) =====
+  document.getElementById('contactForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-    const prenom  = document.getElementById('prenom').value;
-    const nom     = document.getElementById('nom').value;
-    const email   = document.getElementById('email').value;
-    const tel     = document.getElementById('tel').value;
-    const service = document.getElementById('service').value;
-    const message = document.getElementById('message').value;
-
-    const subject = encodeURIComponent('Demande de devis Madi\'O — ' + service);
-    const body = encodeURIComponent(
-      `Bonjour,\n\nNouvelle demande via le site Madi'O.\n\n`
-      + `Nom : ${prenom} ${nom}\n`
-      + `Email : ${email}\n`
-      + `Téléphone : ${tel}\n`
-      + `Prestation souhaitée : ${service}\n\n`
-      + `Détails :\n${message}\n\n`
-      + `Merci de me recontacter.`
-    );
-    window.location.href = `mailto:Madio.francomme@gmail.com?subject=${subject}&body=${body}`;
-    showToast('✓ Votre messagerie va s\'ouvrir pour finaliser l\'envoi.');
-    setTimeout(() => e.target.reset(), 500);
+    const form = e.target;
+    const submitBtn = form.querySelector('.form-submit');
+    const statusDiv = document.getElementById('form-status');
+    
+    // Désactiver le bouton pendant l'envoi
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = 'Envoi en cours... ⏳';
+    
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      
+      if (response.ok) {
+        // Succès
+        statusDiv.style.display = 'block';
+        statusDiv.style.backgroundColor = '#C6EFCE';
+        statusDiv.style.color = '#006100';
+        statusDiv.innerHTML = '✅ <strong>Message envoyé avec succès !</strong><br>Nous vous recontactons sous 24h.';
+        form.reset();
+        showToast('✓ Demande envoyée — nous vous recontactons sous 24h.');
+      } else {
+        // Erreur
+        statusDiv.style.display = 'block';
+        statusDiv.style.backgroundColor = '#FFE6E6';
+        statusDiv.style.color = '#C00000';
+        statusDiv.innerHTML = '❌ Une erreur s\'est produite. Veuillez réessayer ou nous appeler au 07 60 69 72 15.';
+      }
+    } catch (error) {
+      // Erreur réseau
+      statusDiv.style.display = 'block';
+      statusDiv.style.backgroundColor = '#FFE6E6';
+      statusDiv.style.color = '#C00000';
+      statusDiv.innerHTML = '❌ Erreur de connexion. Vérifiez votre internet ou contactez-nous au 07 60 69 72 15.';
+    } finally {
+      // Réactiver le bouton
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = 'Envoyer ma demande <span>→</span>';
+    }
   });
 
   // ===== Avis : ouverture formulaire =====
