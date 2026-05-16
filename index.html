@@ -1269,26 +1269,30 @@
         <div class="form-row">
           <div class="form-field">
             <label for="prenom">Prénom</label>
-            <input type="text" id="prenom" name="prenom" required>
+            <input type="text" id="prenom" name="prenom" data-fs-field required>
+            <span data-fs-error="prenom" style="color:#C00000;font-size:12px;margin-top:4px;display:block"></span>
           </div>
           <div class="form-field">
             <label for="nom">Nom</label>
-            <input type="text" id="nom" name="nom" required>
+            <input type="text" id="nom" name="nom" data-fs-field required>
+            <span data-fs-error="nom" style="color:#C00000;font-size:12px;margin-top:4px;display:block"></span>
           </div>
         </div>
         <div class="form-row">
           <div class="form-field">
             <label for="email">Email</label>
-            <input type="email" id="email" name="email" required>
+            <input type="email" id="email" name="email" data-fs-field required>
+            <span data-fs-error="email" style="color:#C00000;font-size:12px;margin-top:4px;display:block"></span>
           </div>
           <div class="form-field">
             <label for="tel">Téléphone</label>
-            <input type="tel" id="tel" name="telephone" required>
+            <input type="tel" id="tel" name="telephone" data-fs-field required>
+            <span data-fs-error="telephone" style="color:#C00000;font-size:12px;margin-top:4px;display:block"></span>
           </div>
         </div>
         <div class="form-field">
           <label for="service">Prestation souhaitée</label>
-          <select id="service" name="prestation" required>
+          <select id="service" name="prestation" data-fs-field required>
             <option value="">— Choisir une prestation —</option>
             <option>Arrivée — Accueil voyageurs (25€)</option>
             <option>Départ — Gestion du départ (25€)</option>
@@ -1298,14 +1302,23 @@
             <option>Prestations régulières (multi-biens / multi-séjours)</option>
             <option>Autre / je ne sais pas encore</option>
           </select>
+          <span data-fs-error="prestation" style="color:#C00000;font-size:12px;margin-top:4px;display:block"></span>
         </div>
         <div class="form-field">
           <label for="message">Détails de votre demande</label>
-          <textarea id="message" name="message" placeholder="Adresse du bien, dates, horaires souhaités, particularités…"></textarea>
+          <textarea id="message" name="message" data-fs-field placeholder="Adresse du bien, dates, horaires souhaités, particularités…"></textarea>
+          <span data-fs-error="message" style="color:#C00000;font-size:12px;margin-top:4px;display:block"></span>
         </div>
-        <button type="submit" class="form-submit">Envoyer ma demande <span>→</span></button>
+        <button type="submit" class="form-submit" data-fs-submit-btn>Envoyer ma demande <span>→</span></button>
         <p class="form-note">🔒 Vos informations restent strictement confidentielles. RGPD.</p>
-        <div id="form-status" style="display:none; margin-top:20px; padding:15px; border-radius:8px; text-align:center; font-size:14px;"></div>
+        
+        <!-- Messages de succès et d'erreur Formspree -->
+        <div data-fs-success style="display:none; margin-top:20px; padding:15px; border-radius:8px; text-align:center; font-size:14px; background:#C6EFCE; color:#006100;">
+          ✅ <strong>Message envoyé avec succès !</strong><br>Nous vous recontactons sous 24h.
+        </div>
+        <div data-fs-error style="display:none; margin-top:20px; padding:15px; border-radius:8px; text-align:center; font-size:14px; background:#FFE6E6; color:#C00000;">
+          ❌ Une erreur s'est produite. Veuillez réessayer ou nous appeler au 07 60 69 72 15.
+        </div>
       </form>
     </div>
   </div>
@@ -1420,51 +1433,13 @@
     setTimeout(() => toast.classList.remove('show'), 4500);
   }
 
-  // ===== Formulaire contact (envoi via Formspree) =====
-  document.getElementById('contactForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const submitBtn = form.querySelector('.form-submit');
-    const statusDiv = document.getElementById('form-status');
-    
-    // Désactiver le bouton pendant l'envoi
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = 'Envoi en cours... ⏳';
-    
-    try {
-      const response = await fetch(form.action, {
-        method: 'POST',
-        body: new FormData(form),
-        headers: {
-          'Accept': 'application/json'
-        }
-      });
-      
-      if (response.ok) {
-        // Succès
-        statusDiv.style.display = 'block';
-        statusDiv.style.backgroundColor = '#C6EFCE';
-        statusDiv.style.color = '#006100';
-        statusDiv.innerHTML = '✅ <strong>Message envoyé avec succès !</strong><br>Nous vous recontactons sous 24h.';
-        form.reset();
-        showToast('✓ Demande envoyée — nous vous recontactons sous 24h.');
-      } else {
-        // Erreur
-        statusDiv.style.display = 'block';
-        statusDiv.style.backgroundColor = '#FFE6E6';
-        statusDiv.style.color = '#C00000';
-        statusDiv.innerHTML = '❌ Une erreur s\'est produite. Veuillez réessayer ou nous appeler au 07 60 69 72 15.';
-      }
-    } catch (error) {
-      // Erreur réseau
-      statusDiv.style.display = 'block';
-      statusDiv.style.backgroundColor = '#FFE6E6';
-      statusDiv.style.color = '#C00000';
-      statusDiv.innerHTML = '❌ Erreur de connexion. Vérifiez votre internet ou contactez-nous au 07 60 69 72 15.';
-    } finally {
-      // Réactiver le bouton
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = 'Envoyer ma demande <span>→</span>';
+  // ===== Formulaire contact (Formspree Ajax officiel) =====
+  window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+  formspree('initForm', { 
+    formElement: '#contactForm', 
+    formId: 'xojrgbze',
+    onSuccess: function() {
+      showToast('✓ Demande envoyée — nous vous recontactons sous 24h.');
     }
   });
 
@@ -1537,6 +1512,9 @@
     nav.style.padding = window.scrollY > 30 ? '12px 0' : '18px 0';
   });
 </script>
+
+<!-- Bibliothèque Formspree Ajax officielle -->
+<script src="https://unpkg.com/@formspree/ajax@1" defer></script>
 
 </body>
 </html>
