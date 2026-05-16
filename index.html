@@ -1427,12 +1427,72 @@
     setTimeout(() => toast.classList.remove('show'), 4500);
   }
 
-  // ===== Formulaire contact (HTML basique - pas de JavaScript) =====
-  // Le formulaire s'envoie directement via POST sans JavaScript
+  // ===== Formulaire contact =====
   const contactForm = document.getElementById('contactForm');
-  contactForm.addEventListener('submit', function() {
-    // Laisser le formulaire s'envoyer naturellement
-    showToast('⏳ Envoi en cours...');
+  const submitBtn = contactForm.querySelector('.form-submit');
+  const originalBtnText = submitBtn.innerHTML;
+  const statusDiv = document.getElementById('form-status');
+  
+  contactForm.addEventListener('submit', async function(e) {
+    e.preventDefault(); // Empêcher l'envoi par défaut
+    
+    // Changer le bouton
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = 'Envoi en cours... ⏳';
+    submitBtn.style.opacity = '0.6';
+    
+    try {
+      // Envoyer via fetch
+      const response = await fetch(contactForm.action, {
+        method: 'POST',
+        body: new FormData(contactForm),
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      
+      if (response.ok) {
+        // Succès
+        statusDiv.style.display = 'block';
+        statusDiv.style.backgroundColor = '#C6EFCE';
+        statusDiv.style.color = '#006100';
+        statusDiv.innerHTML = '✅ <strong>Message envoyé avec succès !</strong><br>Nous vous recontactons sous 24h.';
+        
+        // Vider le formulaire
+        contactForm.reset();
+        
+        // Toast
+        showToast('✓ Demande envoyée — nous vous recontactons sous 24h.');
+        
+        // Remettre le bouton normal après 10 secondes
+        setTimeout(() => {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalBtnText;
+          submitBtn.style.opacity = '1';
+          statusDiv.style.display = 'none';
+        }, 10000);
+      } else {
+        // Erreur
+        statusDiv.style.display = 'block';
+        statusDiv.style.backgroundColor = '#FFE6E6';
+        statusDiv.style.color = '#C00000';
+        statusDiv.innerHTML = '❌ Une erreur s\'est produite. Veuillez réessayer ou nous appeler au 07 60 69 72 15.';
+        
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnText;
+        submitBtn.style.opacity = '1';
+      }
+    } catch (error) {
+      // Erreur réseau
+      statusDiv.style.display = 'block';
+      statusDiv.style.backgroundColor = '#FFE6E6';
+      statusDiv.style.color = '#C00000';
+      statusDiv.innerHTML = '❌ Erreur de connexion. Vérifiez votre internet ou contactez-nous au 07 60 69 72 15.';
+      
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalBtnText;
+      submitBtn.style.opacity = '1';
+    }
   });
 
   // ===== Avis : ouverture formulaire =====
